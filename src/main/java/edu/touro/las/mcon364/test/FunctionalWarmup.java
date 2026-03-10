@@ -13,7 +13,9 @@ public class FunctionalWarmup {
      * Return a Supplier that gives the current month number (1-12).
      */
     public static Supplier<Integer> currentMonthSupplier() {
-        throw new UnsupportedOperationException();
+        Supplier<Integer> currentMonthSupplier = () -> LocalDate.now().getMonthValue();
+        return currentMonthSupplier;
+
     }
 
     /**
@@ -22,7 +24,8 @@ public class FunctionalWarmup {
      * has more than 5 characters.
      */
     public static Predicate<String> longerThanFive() {
-        throw new UnsupportedOperationException();
+        Predicate<String> longerThanFive = s -> s.length() > 5;
+        return longerThanFive;
     }
 
     /**
@@ -34,7 +37,10 @@ public class FunctionalWarmup {
      * Prefer chaining smaller predicates.
      */
     public static Predicate<Integer> positiveAndEven() {
-        throw new UnsupportedOperationException();
+        Predicate<Integer> positive = p -> p > 0;
+        Predicate<Integer> even = e -> e % 2 == 0;
+        Predicate<Integer> positiveAndEven = positive.and(even);
+        return positiveAndEven;
     }
 
     /**
@@ -48,7 +54,12 @@ public class FunctionalWarmup {
      *
      */
     public static Function<String, Integer> wordCounter() {
-        throw new UnsupportedOperationException();
+        Function<String, Integer> wordCounter = string -> {
+            string = string.trim();
+            String[] words =  string.split(" \\s+");
+            return words.length;
+        };
+        return wordCounter;
     }
 
     /**
@@ -63,6 +74,26 @@ public class FunctionalWarmup {
      * ["  math ", "", " java", "  "] -> ["MATH", "JAVA"]
      */
     public static List<String> cleanLabels(List<String> labels) {
-        throw new UnsupportedOperationException();
+        Function<List<String>, List<String>> noBlankStrings = list -> {
+            List<String> cleanList = List.of();
+            for(String str : list) {
+               if(!wordCounter().equals(0)){
+                   cleanList.add(str);
+               }
+           }
+            return cleanList;
+        };
+        Function<String, String> trim = s -> s.trim();
+        Function<String, String> toUpperCase = s -> s.toUpperCase();
+        Function<List<String>, List<String>> cleanLabelsList = list -> {
+            List<String> cleanList = List.of();
+            for(String str : list) {
+                trim.apply(str);
+                toUpperCase.apply(str);
+                cleanList.add(str);
+            }
+            return cleanList;
+        };
+        return noBlankStrings.andThen(cleanLabelsList).apply(labels) ;
     }
 }

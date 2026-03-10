@@ -1,6 +1,7 @@
 package edu.touro.las.mcon364.test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BasicStreamsQuiz {
 
@@ -19,7 +20,10 @@ public class BasicStreamsQuiz {
      * Return all course names sorted alphabetically.
      */
     public List<String> getSortedCourseNames() {
-        throw new UnsupportedOperationException();
+        List<String> sortedCourseNames = scoresByCourse.keySet()
+                .stream().sorted().toList();
+
+        return sortedCourseNames;
     }
 
     /**
@@ -27,7 +31,8 @@ public class BasicStreamsQuiz {
      * Across all courses, count how many scores are greater than or equal to threshold.
      */
     public long countScoresAtLeast(int threshold) {
-        throw new UnsupportedOperationException();
+        int ctr;
+        scoresByCourse.
     }
 
     /**
